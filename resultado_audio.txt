@@ -1,0 +1,8 @@
+AUDIO DEL RESULTADO
+Resumen del contenido:
+Líneas: 5
+Palabras: 30
+Primeras líneas:
+Python es importante para automatizar tareas.
+El resultado del análisis puede ser útil.
+XML permite estructurar información.
