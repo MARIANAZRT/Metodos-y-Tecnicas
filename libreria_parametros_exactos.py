@@ -1,9 +1,6 @@
 class LibreriaGramaticaExacta:
-
-    # =========================================
     # PARAMETRO 1:
-    # Lenguaje a interpretar -> Reglas gramaticales
-    # =========================================
+    # Lenguaje a interpretar -> Reglas gramaticales   
     @staticmethod
     def lenguaje_a_interpretar(cadena):
         # Este lenguaje simple acepta:
