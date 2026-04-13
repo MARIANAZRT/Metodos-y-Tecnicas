@@ -28,11 +28,11 @@ class LibreriaGramaticaExacta:
 
         return False
 
-    # =========================================
+   
     # PARAMETRO 2:
     # Realizar consultas con el lenguaje
     # determinado a un motor de I.A.
-    # =========================================
+
     @staticmethod
     def realizar_consulta_con_lenguaje_determinado_a_un_motor_de_ia(consulta, contenido):
         partes = consulta.lower().split()
@@ -91,11 +91,11 @@ class LibreriaGramaticaExacta:
 
         return "Consulta no válida para el lenguaje determinado."
 
-    # =========================================
+   
     # PARAMETRO 3:
     # Interpretar los resultados extrayendo
     # "partes relevantes" de la misma
-    # =========================================
+   
     @staticmethod
     def interpretar_los_resultados_extrayendo_partes_relevantes_de_la_misma(contenido):
         lineas = contenido.split("\n")
@@ -115,11 +115,11 @@ class LibreriaGramaticaExacta:
 
         return relevantes
 
-    # =========================================
+
     # PARAMETRO 4:
     # Los resultados pueden ser reproducidos
     # en audio
-    # =========================================
+
     @staticmethod
     def los_resultados_pueden_ser_reproducidos_en_audio(texto_resultado):
         # Como esta versión no usa librerías externas,
@@ -131,7 +131,7 @@ class LibreriaGramaticaExacta:
         archivo.close()
         return "Se generó el archivo resultado_audio.txt con el texto para audio."
 
-    # =========================================
+   
     # FUNCIONES DE APOYO
     # =========================================
     @staticmethod
