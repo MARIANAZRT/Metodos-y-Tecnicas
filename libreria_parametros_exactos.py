@@ -1,17 +1,12 @@
+from gtts import gTTS
+import os
+
+
 class LibreriaGramaticaExacta:
     # PARAMETRO 1:
-    # Lenguaje a interpretar -> Reglas gramaticales   
+    # Lenguaje a interpretar -> Reglas gramaticales
     @staticmethod
     def lenguaje_a_interpretar(cadena):
-        # Este lenguaje simple acepta:
-        # palabras clave: resumen, buscar, relevante, audio
-        # conectores: y, o
-        # ejemplos:
-        # resumen
-        # buscar python
-        # buscar resultado y resumen
-        # relevante
-        # audio
         partes = cadena.lower().split()
 
         if len(partes) == 1:
@@ -28,18 +23,12 @@ class LibreriaGramaticaExacta:
 
         return False
 
-   
     # PARAMETRO 2:
-    # Realizar consultas con el lenguaje
-    # determinado a un motor de I.A.
-
+    # Realizar consultas con el lenguaje determinado a un motor de I.A.
     @staticmethod
     def realizar_consulta_con_lenguaje_determinado_a_un_motor_de_ia(consulta, contenido):
         partes = consulta.lower().split()
 
-        # Motor de IA simple simulado
-        # Aquí no se conecta a internet ni a una IA real,
-        # pero responde como si analizara el texto.
         if consulta.lower() == "resumen":
             return LibreriaGramaticaExacta.generar_resumen(contenido)
 
@@ -50,7 +39,9 @@ class LibreriaGramaticaExacta:
             return "\n".join(relevantes)
 
         elif consulta.lower() == "audio":
-            return "Resultado listo para reproducirse en audio."
+            resumen = LibreriaGramaticaExacta.generar_resumen(contenido)
+            mensaje_audio = LibreriaGramaticaExacta.los_resultados_pueden_ser_reproducidos_en_audio(resumen)
+            return resumen + "\n\n" + mensaje_audio
 
         elif len(partes) >= 2 and partes[0] == "buscar":
             termino1 = partes[1]
@@ -81,6 +72,7 @@ class LibreriaGramaticaExacta:
                     for linea in coincidencias1:
                         if linea not in resultado:
                             resultado.append(linea)
+
                     for linea in coincidencias2:
                         if linea not in resultado:
                             resultado.append(linea)
@@ -91,11 +83,8 @@ class LibreriaGramaticaExacta:
 
         return "Consulta no válida para el lenguaje determinado."
 
-   
     # PARAMETRO 3:
-    # Interpretar los resultados extrayendo
-    # "partes relevantes" de la misma
-   
+    # Interpretar los resultados extrayendo "partes relevantes" de la misma
     @staticmethod
     def interpretar_los_resultados_extrayendo_partes_relevantes_de_la_misma(contenido):
         lineas = contenido.split("\n")
@@ -103,37 +92,37 @@ class LibreriaGramaticaExacta:
 
         for linea in lineas:
             texto = linea.lower()
-            if ("importante" in texto or
+            if (
+                "importante" in texto or
                 "resultado" in texto or
                 "resumen" in texto or
                 "conclusion" in texto or
                 "regla" in texto or
                 "python" in texto or
                 "xml" in texto or
-                "expresion" in texto):
+                "expresion" in texto
+            ):
                 relevantes.append(linea)
 
         return relevantes
 
-
     # PARAMETRO 4:
-    # Los resultados pueden ser reproducidos
-    # en audio
-
+    # Los resultados pueden ser reproducidos en audio
     @staticmethod
     def los_resultados_pueden_ser_reproducidos_en_audio(texto_resultado):
-        # Como esta versión no usa librerías externas,
-        # aquí generamos un archivo de texto que sirve
-        # como guion para audio o lectura.
-        archivo = open("resultado_audio.txt", "w", encoding="utf-8")
-        archivo.write("AUDIO DEL RESULTADO\n")
-        archivo.write(texto_resultado)
-        archivo.close()
-        return "Se generó el archivo resultado_audio.txt con el texto para audio."
+        nombre_archivo = "resultado_audio.mp3"
+        tts = gTTS(text=texto_resultado, lang="es", slow=False)
+        tts.save(nombre_archivo)
 
-   
+        if os.path.exists(nombre_archivo):
+            try:
+                os.startfile(nombre_archivo)
+            except:
+                pass
+
+        return "Se generó el archivo de audio: " + nombre_archivo
+
     # FUNCIONES DE APOYO
-    # =========================================
     @staticmethod
     def leer_archivo(ruta):
         archivo = open(ruta, "r", encoding="utf-8")
@@ -152,10 +141,10 @@ class LibreriaGramaticaExacta:
         palabras = len(contenido.split())
 
         return (
-            "Resumen del contenido:\n"
-            + "Líneas: " + str(cantidad_lineas) + "\n"
-            + "Palabras: " + str(palabras) + "\n"
-            + "Primeras líneas:\n"
+            "Resumen del contenido.\n"
+            + "Cantidad de líneas: " + str(cantidad_lineas) + ".\n"
+            + "Cantidad de palabras: " + str(palabras) + ".\n"
+            + "Primeras líneas del texto:\n"
             + "\n".join(lineas[:3])
         )
 
@@ -187,21 +176,25 @@ def main():
 
         consulta = input("\nIngrese la consulta en el lenguaje determinado: ")
 
-        # PARAMETRO 1: validar lenguaje a interpretar
+        # PARAMETRO 1
         if not LibreriaGramaticaExacta.lenguaje_a_interpretar(consulta):
             print("La consulta no cumple las reglas gramaticales del lenguaje a interpretar.")
             return
 
         print("\nLa consulta cumple las reglas gramaticales.")
 
-        # PARAMETRO 2: realizar consulta al motor de IA
-        resultado = LibreriaGramaticaExacta.realizar_consulta_con_lenguaje_determinado_a_un_motor_de_ia(consulta, contenido)
+        # PARAMETRO 2
+        resultado = LibreriaGramaticaExacta.realizar_consulta_con_lenguaje_determinado_a_un_motor_de_ia(
+            consulta, contenido
+        )
 
         print("\n=== RESULTADO DE LA CONSULTA ===")
         print(resultado)
 
-        # PARAMETRO 3: interpretar resultados y extraer partes relevantes
-        partes_relevantes = LibreriaGramaticaExacta.interpretar_los_resultados_extrayendo_partes_relevantes_de_la_misma(contenido)
+        # PARAMETRO 3
+        partes_relevantes = LibreriaGramaticaExacta.interpretar_los_resultados_extrayendo_partes_relevantes_de_la_misma(
+            contenido
+        )
 
         print("\n=== PARTES RELEVANTES ===")
         if len(partes_relevantes) == 0:
@@ -210,8 +203,8 @@ def main():
             for parte in partes_relevantes:
                 print(parte)
 
-        # PARAMETRO 4: reproducir resultado en audio
-        opcion_audio = input("\n¿Desea generar el resultado para audio? (si/no): ").lower()
+        # PARAMETRO 4
+        opcion_audio = input("\n¿Desea generar el resultado en audio TTS? (si/no): ").lower()
         if opcion_audio == "si":
             mensaje_audio = LibreriaGramaticaExacta.los_resultados_pueden_ser_reproducidos_en_audio(resultado)
             print(mensaje_audio)
